@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { BUBBLE_ENDPOINT, PRODUCT_SLUG, createPayload, formatPhone, thankYouUrl, sendRegistration, attachCalculatorForm } from '../src/scripts/calculadora-form.js';
+import { BUBBLE_ENDPOINT, PRODUCT_SLUG, THANK_YOU_URL, createPayload, formatPhone, thankYouUrl, sendRegistration, attachCalculatorForm } from '../src/scripts/calculadora-form.js';
 
 function fixture(request = async () => ({ ok: true, text: async () => '{"status":"success"}' })) {
   const elements = Object.fromEntries(Object.entries({ nome:' Ana ', sobrenome:' Souza Lima ', email:' ana+tri@example.com ', celular:'(11) 98765-4321' }).map(([key,value])=>[key,{value,readOnly:false,addEventListener(){}}]));
@@ -18,7 +18,6 @@ function fixture(request = async () => ({ ok: true, text: async () => '{"status"
     setAttribute(){},removeAttribute(){},
   };
   attachCalculatorForm(form, {
-    base:'https://captura.example.com/',
     request:async (...args)=>{requests.push(args);return request(...args);},
     navigate:(url)=>navigations.push(url),
   });
@@ -48,7 +47,7 @@ test('success POSTs JSON to the provided endpoint and redirects only after confi
   assert.deepEqual(JSON.parse(f.requests[0][1].body),createPayload(f.form));
   resolve({ok:true,text:async()=>'{"status":"success"}'});
   await send;
-  assert.deepEqual(f.navigations,['https://captura.example.com/obrigado?email=ana%2Btri%40example.com&produto=calculadora_tri']);
+  assert.deepEqual(f.navigations,[`${THANK_YOU_URL}?email=ana%2Btri%40example.com&produto=calculadora_tri`]);
 });
 
 test('invalid fields do not POST',async()=>{
@@ -76,10 +75,10 @@ test('double submit does not send twice and failure allows another attempt',asyn
   resolve({ok:true,text:async()=>'{"status":"success"}'}); await second;
 });
 
-test('email stays encoded in the same-origin thank-you URL',()=>{
-  const url=new URL(thankYouUrl('ana+tri@example.com','https://captura.example.com/cadastro'));
-  assert.equal(url.origin,'https://captura.example.com');
-  assert.equal(url.pathname,'/obrigado');
+test('email and product are encoded in the shared thank-you URL',()=>{
+  const url=new URL(thankYouUrl('ana+tri@example.com'));
+  assert.equal(url.origin,new URL(THANK_YOU_URL).origin);
+  assert.equal(url.href.startsWith(THANK_YOU_URL),true);
   assert.equal(url.searchParams.get('email'),'ana+tri@example.com');
   assert.equal(url.searchParams.get('produto'),PRODUCT_SLUG);
 });

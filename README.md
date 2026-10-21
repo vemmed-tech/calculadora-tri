@@ -35,8 +35,8 @@ Corpo JSON:
 }
 ```
 
-Após uma resposta HTTP de sucesso (e sem status de erro no JSON), o navegador abre `/obrigado?email=ana%40example.com&produto=calculadora_tri` no mesmo domínio da captura.
-A rota de obrigado é local e confirma o cadastro; não é uma calculadora e não promete entrega por e-mail. A página de captura não executa o cálculo de TRI.
+Após uma resposta HTTP de sucesso (e sem status de erro no JSON), o navegador abre `https://spp.vemmed.com/obrigado?email=ana%40example.com&produto=calculadora_tri`.
+A página de captura não executa o cálculo de TRI; ela envia o cadastro ao Bubble e abre a página compartilhada de obrigado após a confirmação.
 A API precisa aceitar POST JSON público com esses cinco campos e permitir CORS para o domínio da página. Nenhuma chave privada é colocada no navegador.
 Esta nova isca não reutiliza um ID de formulário do Mautic de outro produto: só o endpoint do Bubble foi informado. Para adicionar Mautic será necessário o formulário específico da calculadora.
 

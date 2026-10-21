@@ -1,6 +1,7 @@
 export const BUBBLE_ENDPOINT = 'https://flashmedradarquestoes.bubbleapps.io/api/1.1/wf/sign_up_calculadora';
 export const PRODUCT = 'Calculadora TRI';
 export const PRODUCT_SLUG = 'calculadora_tri';
+export const THANK_YOU_URL = 'https://spp.vemmed.com/obrigado';
 
 export function createPayload(form) {
   const value = (name) => String(form.elements.namedItem(name)?.value ?? '').trim();
@@ -16,8 +17,8 @@ export function formatPhone(value) {
   return '(' + digits.slice(0, 2) + ') ' + (number.length > prefixLength ? number.slice(0, prefixLength) + '-' + number.slice(prefixLength) : number);
 }
 
-export function thankYouUrl(email, base) {
-  const url = new URL('/obrigado', base);
+export function thankYouUrl(email) {
+  const url = new URL(THANK_YOU_URL);
   url.searchParams.set('email', email);
   url.searchParams.set('produto', PRODUCT_SLUG);
   return url.href;
@@ -41,7 +42,6 @@ export async function sendRegistration(payload, request = globalThis.fetch) {
 export function attachCalculatorForm(form, {
   request = globalThis.fetch.bind(globalThis),
   navigate = (url) => window.location.assign(url),
-  base = window.location.href,
 } = {}) {
   const phone = form.elements.namedItem('celular');
   const fields = ['nome', 'sobrenome', 'email', 'celular'].map((name) => form.elements.namedItem(name));
@@ -68,7 +68,7 @@ export function attachCalculatorForm(form, {
     form.setAttribute('aria-busy', 'true');
     try {
       await sendRegistration(payload, request);
-      navigate(thankYouUrl(payload.email, base));
+      navigate(thankYouUrl(payload.email));
     } catch {
       error.textContent = 'Não foi possível concluir seu cadastro agora. Tente novamente em instantes.';
       error.focus();
