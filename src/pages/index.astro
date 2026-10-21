@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactPage from '../components/ContactPage.astro';
+---
+<BaseLayout title="Calculadora TRI | VemMED" description="Acesse gratuitamente a Calculadora TRI da VemMED e explore estimativas de nota para pensar nos próximos passos da sua preparação para o ENEM.">
+  <main id="conteudo">
+    <section class="hero" aria-labelledby="hero-title">
+      <span class="decoration-circle" aria-hidden="true"></span>
+      <span class="decoration-diamond" aria-hidden="true"></span>
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <a class="wordmark" href="#conteudo" aria-label="VemMED, início">
+            <img src="/assets/logo-vemmed.svg" alt="VemMED" />
+          </a>
+          <p class="page-badge">CALCULADORA TRI</p>
+          <h1 id="hero-title">Calculadora TRI</h1>
+          <p class="hero__lead">Explore estimativas de nota para o ENEM e use essa visão para pensar nos próximos passos da sua preparação. Uma ferramenta de apoio para planejar seus estudos com mais clareza, respeitando seu ritmo.</p>
+          <div class="hero__access" role="note" aria-label="Acesso gratuito">
+            <span class="hero__access-check" aria-hidden="true">✓</span>
+            <div>
+              <p class="hero__access-title">Acesso gratuito.</p>
+              <p class="hero__access-description">Solicite a liberação pelo formulário.</p>
+            </div>
+          </div>
+        </div>
+        <aside class="capture-panel" id="cadastro" aria-labelledby="panel-title">
+          <p class="capture-panel__eyebrow">ACESSO AO APLICATIVO</p>
+          <h2 id="panel-title">Acessar calculadora</h2>
+          <p class="capture-panel__description">Preencha seus dados para acessar gratuitamente a Calculadora TRI.</p>
+          <ContactPage />
+        </aside>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
