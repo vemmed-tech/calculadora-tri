@@ -22,7 +22,7 @@ Envie o conteúdo desta pasta para um repositório próprio. Na Vercel, use o pr
 Não há variáveis de ambiente obrigatórias nem servidor para hospedar: o formulário envia diretamente para o Bubble.
 
 ## Cadastro
-Endpoint: `https://flashmedradarquestoes.bubbleapps.io/api/1.1/wf/sign_up_calculadora`.
+Formulário Mautic ID `23` e endpoint Bubble: `https://flashmedradarquestoes.bubbleapps.io/api/1.1/wf/sign_up_calculadora`.
 
 Corpo JSON:
 ```json
@@ -35,10 +35,8 @@ Corpo JSON:
 }
 ```
 
-Após uma resposta HTTP de sucesso (e sem status de erro no JSON), o navegador abre `https://spp.vemmed.com/obrigado?email=ana%40example.com&produto=calculadora_tri`.
-A página de captura não executa o cálculo de TRI; ela envia o cadastro ao Bubble e abre a página compartilhada de obrigado após a confirmação.
-A API precisa aceitar POST JSON público com esses cinco campos e permitir CORS para o domínio da página. Nenhuma chave privada é colocada no navegador.
-Esta nova isca não reutiliza um ID de formulário do Mautic de outro produto: só o endpoint do Bubble foi informado. Para adicionar Mautic será necessário o formulário específico da calculadora.
+Após o Bubble confirmar o cadastro, o formulário Mautic é enviado e o navegador segue o destino configurado nele, com os parâmetros `email` e `produto=calculadora_tri`.
+A página de captura não executa o cálculo de TRI; ela envia o cadastro ao Bubble e ao Mautic. A API Bubble precisa aceitar POST JSON público com esses cinco campos e permitir CORS para o domínio da página. Nenhuma chave privada é colocada no navegador.
 
 A logo, o favicon, as fontes e os identificadores de rastreamento são reaproveitados do layout existente.
 Os testes simulam requisições; não criam cadastros de teste na produção. O recebimento real pelo Bubble precisa ser confirmado em um cadastro autorizado.
